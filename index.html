@@ -19,7 +19,8 @@
   --display-font:'Inter','Segoe UI',sans-serif;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{overflow-x:hidden;}
 ::selection{background:rgba(59,111,224,0.25);color:#fff;}
 body{
   margin:0;
@@ -52,6 +53,11 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
 .searchbox.product button:hover{box-shadow:var(--glow-a);}
 .searchbox.learn button{background:linear-gradient(135deg,var(--gold),#A97D3E);color:#251200;}
 .searchbox.learn button:hover{box-shadow:0 0 22px rgba(201,154,76,0.4);}
+@media (max-width:640px){
+  .navbar{padding:12px 16px;}
+  .searchbox{min-width:100%;}
+  .searchbox button{padding:11px 14px;}
+}
 
 /* ---------- HERO ---------- */
 .hero{padding:64px 0 40px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
@@ -90,8 +96,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
 .coverage-row{display:flex;gap:14px;align-items:flex-start;padding-top:14px;border-top:1px solid var(--border-soft);}
 .coverage-row:first-child{padding-top:0;border-top:none;}
 .coverage-tag{
-  flex-shrink:0;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:0.85rem;background:rgba(59,111,224,0.12);color:var(--accent);border:1px solid rgba(59,111,224,0.3);
+  flex-shrink:0;min-width:34px;height:34px;padding:0 8px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.72rem;letter-spacing:0.2px;background:rgba(59,111,224,0.12);color:var(--accent);border:1px solid rgba(59,111,224,0.3);
 }
 .coverage-tag.v{background:rgba(201,154,76,0.12);color:var(--gold);border-color:rgba(201,154,76,0.3);}
 .coverage-tag.t{background:rgba(44,166,160,0.12);color:var(--accent2);border-color:rgba(44,166,160,0.3);}
@@ -99,6 +105,38 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
 .coverage-row h4{margin:0 0 3px;font-size:0.9rem;font-weight:700;}
 .coverage-row p{margin:0;color:var(--text-dimmer);font-size:0.78rem;line-height:1.5;}
 @media (max-width:900px){.coverage-panel{margin-top:8px;}}
+.win-section{padding:8px 0 20px;}
+.win-card{
+  background:linear-gradient(160deg,var(--card),#0a0b0e);border:1px solid var(--border);border-radius:22px;
+  padding:32px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:34px;align-items:start;
+  box-shadow:0 20px 50px rgba(0,0,0,0.35);
+}
+@media (max-width:900px){.win-card{grid-template-columns:1fr;padding:22px;gap:20px;}}
+@media (max-width:640px){
+  .wrap{padding:0 16px;}
+  .win-card{padding:18px;border-radius:16px;}
+  .win-point{flex-direction:column;gap:4px;}
+  .win-point .wp-label{min-width:0;}
+  .win-copy h3{font-size:1.1rem;}
+  .win-close{font-size:0.85rem;padding:14px;}
+  .coverage-panel{padding:20px;}
+  .hero2{padding:40px 0 0;}
+}
+.win-card img{width:100%;border-radius:14px;display:block;border:1px solid var(--border-soft);}
+.win-kicker{color:var(--accent2);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;display:block;}
+.win-copy h3{margin:0 0 16px;font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;}
+.win-list{display:flex;flex-direction:column;gap:13px;margin-bottom:18px;}
+.win-point{display:flex;gap:12px;align-items:flex-start;}
+.win-point .wp-label{
+  flex-shrink:0;min-width:96px;font-size:0.72rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:0.4px;
+  padding-top:2px;
+}
+.win-point p{margin:0;color:var(--text-dim);font-size:0.87rem;line-height:1.6;}
+.win-close{
+  background:linear-gradient(135deg,rgba(59,111,224,0.14),rgba(44,166,160,0.14));border:1px solid rgba(59,111,224,0.3);
+  border-radius:14px;padding:16px 18px;font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.6;
+}
+
 .video-section{padding:8px 0 44px;}
 .video-frame{
   position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;
@@ -332,6 +370,11 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   box-shadow:0 50px 120px rgba(0,0,0,0.75);
 }
 @media (max-width:760px){.gate-card{grid-template-columns:1fr;max-width:440px;}}
+@media (max-width:480px){
+  .gate-brand-panel{padding:32px 26px;}
+  .gate-form-panel{padding:32px 26px;}
+  .gate-brand-panel h2{font-size:1.4rem;}
+}
 
 .gate-brand-panel{
   background:linear-gradient(160deg,#0d1b3a,#1a2c52 45%,#0a1428);
@@ -433,25 +476,21 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
       </div>
       <div class="coverage-panel">
         <div class="coverage-head">
-          <span class="coverage-kicker">Coverage Snapshot</span>
-          <h3>All 30 Models, 4 Series</h3>
+          <span class="coverage-kicker">Model Highlights · বাংলা</span>
+          <h3>এই মডেলগুলো কেন সেরা</h3>
         </div>
         <div class="coverage-list">
           <div class="coverage-row">
-            <span class="coverage-tag x">X</span>
-            <div><h4>X Series</h4><p>Flagship performance, ZEISS optics, top-tier zoom</p></div>
+            <span class="coverage-tag x">FE</span>
+            <div><h4>vivo X300 FE</h4><p>কমপ্যাক্ট ফ্ল্যাগশিপ — Snapdragon 8 Gen 5 চিপ, ৯০W ফাস্ট চার্জ আর ৫০MP OIS ক্যামেরা, ছোট হাতেও পুরো ফ্ল্যাগশিপ অভিজ্ঞতা।</p></div>
           </div>
           <div class="coverage-row">
-            <span class="coverage-tag v">V</span>
-            <div><h4>V Series</h4><p>Stylish mid-flagship with ZEISS portrait cameras</p></div>
+            <span class="coverage-tag v">V70E</span>
+            <div><h4>vivo V70 Elite</h4><p>ZEISS ট্রিপল ক্যামেরা, ১.৫K AMOLED ৫০০০ নিটস ডিসপ্লে, Snapdragon 8s Gen 3 — প্রতিযোগীদের চেয়ে অনেক এগিয়ে থাকা প্রিমিয়াম ফ্ল্যাগশিপ অভিজ্ঞতা।</p></div>
           </div>
           <div class="coverage-row">
-            <span class="coverage-tag t">T</span>
-            <div><h4>T Series</h4><p>Reliable performance for everyday value shoppers</p></div>
-          </div>
-          <div class="coverage-row">
-            <span class="coverage-tag y">Y</span>
-            <div><h4>Y Series</h4><p>Affordable 5G entry-level with long battery life</p></div>
+            <span class="coverage-tag t">V70</span>
+            <div><h4>vivo V70</h4><p>ZEISS পোর্ট্রেট ক্যামেরা, ৯০W ফ্ল্যাশচার্জ, স্টাইলিশ ডিজাইন — মিড-রেঞ্জে ফ্ল্যাগশিপের ছোঁয়া, দামেও সাশ্রয়ী।</p></div>
           </div>
         </div>
       </div>
@@ -464,6 +503,49 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
     </div>
   </div>
 </header>
+
+<section class="win-section">
+  <div class="wrap">
+    <div class="win-card">
+      <img src="assets/v70-elite-vs-oppo-reno16.png" alt="vivo V70 Elite vs OPPO Reno 16 comparison">
+      <div class="win-copy">
+        <span class="win-kicker">Customer Pitch · বাংলা</span>
+        <h3>কেন vivo V70 Elite প্রতিদ্বন্দ্বীদের চেয়ে এগিয়ে</h3>
+        <div class="win-list">
+          <div class="win-point">
+            <span class="wp-label">ক্যামেরা</span>
+            <p>Reno 16-এ সাধারণ ট্রিপল ক্যামেরা, কিন্তু V70 Elite-এ OIS ও ZEISS অপটিক্স সহ ZEISS ট্রিপল ক্যামেরা সেটআপ — প্রতিটি শট প্রফেশনাল মানের।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">ডিসপ্লে</span>
+            <p>৫০০০ নিটস পিক ব্রাইটনেসসহ ১.৫K আল্ট্রা ক্লিয়ার AMOLED ডিসপ্লে — Reno 16-এর ৩৬০০ নিটসের চেয়ে অনেক উজ্জ্বল, রোদেও স্পষ্ট দেখা যায়।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">পারফরম্যান্স</span>
+            <p>Snapdragon 8s Gen 3, UFS 4.1 ও LPDDR5X সহ — Reno 16-এর SDM7 Gen4 আর UFS 3.1-এর চেয়ে দ্রুত ও স্মুথ পারফরম্যান্স।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">ব্যাটারি</span>
+            <p>৬৫০০mAh BlueVolt ব্যাটারি, ৯০W ফ্ল্যাশচার্জ সহ — দ্রুত চার্জ হয়ে সারাদিন নিশ্চিন্তে ব্যবহার করা যায়।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">ফিঙ্গারপ্রিন্ট</span>
+            <p>আল্ট্রাসনিক ইন-ডিসপ্লে ফিঙ্গারপ্রিন্ট — Reno 16-এর অপটিক্যাল সেন্সরের চেয়ে দ্রুত ও নির্ভরযোগ্য আনলক।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">সুরক্ষা</span>
+            <p>IP68 + IP69 রেটিং — ধুলো, বৃষ্টি, এমনকি গরম পানির জেট থেকেও পুরো সুরক্ষা।</p>
+          </div>
+          <div class="win-point">
+            <span class="wp-label">বিল্ড</span>
+            <p>প্রিমিয়াম মেটাল ফ্রেম — টেকসই, প্রিমিয়াম ও লাক্সারি ফিনিশ যা হাতে ধরলেই বোঝা যায়।</p>
+          </div>
+        </div>
+        <div class="win-close">vivo V70 Elite — সম্পূর্ণ ফ্ল্যাগশিপ অভিজ্ঞতা, যা দাম ও পারফরম্যান্স দুই দিক থেকেই প্রতিযোগীদের চেয়ে বহুগুণ এগিয়ে।</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="video-section">
   <div class="wrap">

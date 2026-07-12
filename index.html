@@ -211,8 +211,8 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   <div class="gate-box">
     <span class="dot"></span>
     <h2>vivo Training Board</h2>
-    <p>চালিয়ে যেতে আপনার Employee ID লিখুন</p>
-    <input type="text" id="empIdInput" placeholder="e.g. VCD14703" autocomplete="off" onkeydown="if(event.key==='Enter')submitEmpId();">
+    <p>অনুগ্রহ করে আপনার VCD কোড লিখুন</p>
+    <input type="text" id="empIdInput" placeholder="আপনার VCD কোড লিখুন (যেমন: VCD14703)" autocomplete="off" onkeydown="if(event.key==='Enter')submitEmpId();">
     <button onclick="submitEmpId()">Enter Board / বোর্ডে প্রবেশ করুন</button>
     <div class="err" id="empIdErr"></div>
     <div class="foot-note">আপনার ID শুধু ব্যবহারের হিসাব রাখার জন্য সংরক্ষণ করা হয়</div>
@@ -295,9 +295,8 @@ function logEvent(eventType, detail1, detail2){
 function submitEmpId(){
   const val = document.getElementById('empIdInput').value.trim().toUpperCase();
   const err = document.getElementById('empIdErr');
-  const vcdPattern = /^VCD\d{4,6}$/;
-  if(!val){ err.textContent = 'Employee ID লিখতে হবে'; return; }
-  if(!vcdPattern.test(val)){ err.textContent = 'সঠিক ফরম্যাটে Employee ID লিখুন (যেমন: VCD14703)'; return; }
+  if(!val){ err.textContent = 'আপনার VCD কোড লিখুন'; return; }
+  if(!val.startsWith('VCD')){ err.textContent = 'শুধুমাত্র VCD কোড দিয়ে শুরু হওয়া Employee ID গ্রহণযোগ্য'; return; }
   EMP_ID = val;
   localStorage.setItem('vivo_emp_id', EMP_ID);
   document.getElementById('gateOverlay').style.display = 'none';

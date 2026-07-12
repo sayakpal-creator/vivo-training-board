@@ -122,7 +122,21 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
   .coverage-panel{padding:20px;}
   .hero2{padding:40px 0 0;}
 }
-.win-card img{width:100%;border-radius:14px;display:block;border:1px solid var(--border-soft);}
+.vs-panel{
+  background:linear-gradient(165deg,var(--bg2),#08090c);border:1px solid var(--border-soft);border-radius:16px;
+  padding:26px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;
+}
+.vs-tag{font-size:0.68rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-dimmer);font-weight:700;}
+.vs-model{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:16px 12px;border-radius:12px;background:var(--card);border:1px solid var(--border);}
+.vs-model--win{border-color:rgba(59,111,224,0.45);box-shadow:0 0 0 1px rgba(59,111,224,0.15), var(--glow-a);}
+.vs-brand{font-size:0.72rem;font-weight:700;color:var(--text-dimmer);text-transform:uppercase;letter-spacing:1px;}
+.vs-name{font-size:1.15rem;font-weight:800;letter-spacing:-0.3px;}
+.vs-model--win .vs-name{background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.vs-note{font-size:0.75rem;color:var(--text-dim);margin-top:2px;}
+.vs-model--win .vs-note{color:var(--accent);font-weight:600;}
+.vs-divider{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));color:#050506;font-weight:800;font-size:0.72rem;
+  box-shadow:0 8px 20px rgba(0,0,0,0.4);}
 .win-kicker{color:var(--accent2);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;display:block;}
 .win-copy h3{margin:0 0 16px;font-size:1.3rem;font-weight:800;letter-spacing:-0.3px;}
 .win-list{display:flex;flex-direction:column;gap:13px;margin-bottom:18px;}
@@ -136,6 +150,34 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
   background:linear-gradient(135deg,rgba(59,111,224,0.14),rgba(44,166,160,0.14));border:1px solid rgba(59,111,224,0.3);
   border-radius:14px;padding:16px 18px;font-size:0.9rem;font-weight:700;color:var(--text);line-height:1.6;
 }
+
+.nudge-toast{
+  position:fixed;left:50%;bottom:-100px;transform:translateX(-50%);
+  background:var(--card);border:1px solid var(--border-soft);border-radius:14px;
+  padding:14px 18px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5), var(--glow-a);
+  color:var(--text);font-size:0.86rem;font-weight:600;cursor:pointer;
+  z-index:6000;max-width:340px;width:calc(100% - 32px);transition:bottom .35s ease;
+}
+.nudge-toast.show{bottom:20px;}
+.nudge-toast .nt-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);flex-shrink:0;}
+
+.notify-section{padding:0 0 8px;}
+.notify-card{
+  background:linear-gradient(135deg,rgba(59,111,224,0.1),rgba(44,166,160,0.08));border:1px solid rgba(59,111,224,0.28);
+  border-radius:18px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.notify-copy{display:flex;align-items:flex-start;gap:12px;}
+.nt-dot-solo{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);flex-shrink:0;margin-top:6px;}
+.notify-copy h4{margin:0 0 3px;font-size:0.95rem;font-weight:800;}
+.notify-copy p{margin:0;color:var(--text-dim);font-size:0.82rem;max-width:440px;line-height:1.5;}
+.notify-btn{
+  flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent-dim));color:#00160f;border:none;
+  border-radius:11px;padding:12px 20px;font-weight:800;font-size:0.85rem;cursor:pointer;white-space:nowrap;transition:all .15s;
+}
+.notify-btn:hover{box-shadow:var(--glow-a);transform:translateY(-1px);}
+.notify-btn.is-on{background:var(--bg2);color:var(--accent);border:1px solid rgba(59,111,224,0.4);cursor:default;box-shadow:none;transform:none;}
+@media (max-width:640px){.notify-card{padding:16px 18px;}.notify-btn{width:100%;text-align:center;}}
 
 .video-section{padding:8px 0 44px;}
 .video-frame{
@@ -507,7 +549,20 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
 <section class="win-section">
   <div class="wrap">
     <div class="win-card">
-      <img src="assets/v70-elite-vs-oppo-reno16.png" alt="vivo V70 Elite vs OPPO Reno 16 comparison">
+      <div class="vs-panel">
+        <div class="vs-tag">তুলনা · Comparison</div>
+        <div class="vs-model vs-model--win">
+          <span class="vs-brand">vivo</span>
+          <span class="vs-name">V70 Elite</span>
+          <span class="vs-note">সম্পূর্ণ ফ্ল্যাগশিপ অভিজ্ঞতা</span>
+        </div>
+        <div class="vs-divider"><span>VS</span></div>
+        <div class="vs-model">
+          <span class="vs-brand">OPPO</span>
+          <span class="vs-name">Reno 16</span>
+          <span class="vs-note">সাধারণ মানের ফিচার</span>
+        </div>
+      </div>
       <div class="win-copy">
         <span class="win-kicker">Customer Pitch · বাংলা</span>
         <h3>কেন vivo V70 Elite প্রতিদ্বন্দ্বীদের চেয়ে এগিয়ে</h3>
@@ -543,6 +598,21 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
         </div>
         <div class="win-close">vivo V70 Elite — সম্পূর্ণ ফ্ল্যাগশিপ অভিজ্ঞতা, যা দাম ও পারফরম্যান্স দুই দিক থেকেই প্রতিযোগীদের চেয়ে বহুগুণ এগিয়ে।</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="notify-section">
+  <div class="wrap">
+    <div class="notify-card">
+      <div class="notify-copy">
+        <span class="nt-dot-solo"></span>
+        <div>
+          <h4>নোটিফিকেশন চালু করুন</h4>
+          <p>নতুন মডেল, অফার আর তুলনামূলক তথ্যের আপডেট সরাসরি আপনার ব্রাউজারে পেতে চালু করুন।</p>
+        </div>
+      </div>
+      <button class="notify-btn" id="notifyBtn" onclick="enableNotifications()">নোটিফিকেশন চালু করুন</button>
     </div>
   </div>
 </section>
@@ -656,6 +726,13 @@ function checkSession(){
 
 // Re-check whenever the page loads, reloads, or the user navigates back/forward to it
 window.addEventListener('DOMContentLoaded', checkSession);
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('notifyBtn');
+  if(btn && 'Notification' in window){
+    if(Notification.permission === 'granted'){ btn.textContent = 'চালু আছে ✓'; btn.classList.add('is-on'); }
+    else if(Notification.permission === 'denied'){ btn.textContent = 'ব্রাউজার সেটিংস থেকে অনুমতি দিন'; }
+  }
+});
 window.addEventListener('pageshow', checkSession);
 
 // Periodically check for 5-minute idle timeout
@@ -711,6 +788,75 @@ function flushPanelTime(){
 
 window.addEventListener('beforeunload', flushPanelTime);
 
+function enableNotifications(){
+  const btn = document.getElementById('notifyBtn');
+  if(!('Notification' in window)){
+    btn.textContent = 'এই ব্রাউজারে সাপোর্ট নেই';
+    return;
+  }
+  if(Notification.permission === 'granted'){
+    btn.textContent = 'চালু আছে ✓';
+    btn.classList.add('is-on');
+    showEngagementNudge();
+    return;
+  }
+  if(Notification.permission === 'denied'){
+    btn.textContent = 'ব্রাউজার সেটিংস থেকে অনুমতি দিন';
+    return;
+  }
+  Notification.requestPermission().then(perm => {
+    if(perm === 'granted'){
+      btn.textContent = 'চালু আছে ✓';
+      btn.classList.add('is-on');
+      showEngagementNudge();
+    } else {
+      btn.textContent = 'অনুমতি দেওয়া হয়নি';
+    }
+  });
+}
+
+function showEngagementNudge(){
+  const title = 'vivo Training Board';
+  const body  = 'V70 কেন বেটার জানতে চাও?';
+
+  function goToPitch(){
+    document.querySelector('.win-section')?.scrollIntoView({behavior:'smooth'});
+  }
+
+  function showToast(){
+    const toast = document.createElement('div');
+    toast.className = 'nudge-toast';
+    toast.innerHTML = `<span class="nt-dot"></span><span>${body}</span>`;
+    toast.onclick = () => { goToPitch(); toast.remove(); };
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 6000);
+  }
+
+  if('Notification' in window){
+    if(Notification.permission === 'granted'){
+      const n = new Notification(title, { body });
+      n.onclick = () => { window.focus(); goToPitch(); };
+    } else if(Notification.permission !== 'denied'){
+      Notification.requestPermission().then(perm => {
+        if(perm === 'granted'){
+          const n = new Notification(title, { body });
+          n.onclick = () => { window.focus(); goToPitch(); };
+        } else {
+          showToast();
+        }
+      });
+    } else {
+      showToast();
+    }
+  } else {
+    showToast();
+  }
+}
+
 async function submitEmpId(){
   const idVal = document.getElementById('empIdInput').value.trim().toUpperCase();
   const passVal = document.getElementById('empPassInput').value;
@@ -744,6 +890,7 @@ async function submitEmpId(){
       err.textContent = '';
       hideGate();
       logEvent('session_start');
+      setTimeout(showEngagementNudge, 1200);
     } else {
       err.textContent = 'ভুল VCD কোড অথবা পাসওয়ার্ড — আবার চেষ্টা করুন';
     }

@@ -78,12 +78,37 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
 .hero2-grid--single{grid-template-columns:1fr;max-width:760px;}
 .feature-strip--3{grid-template-columns:repeat(3,1fr);}
 @media (max-width:900px){.feature-strip--3{grid-template-columns:1fr;}}
+
+.coverage-panel{
+  background:linear-gradient(165deg,var(--card),#0a0b0e);border:1px solid var(--border);border-radius:20px;
+  padding:26px 26px 20px;box-shadow:0 20px 50px rgba(0,0,0,0.35);
+}
+.coverage-head{margin-bottom:18px;}
+.coverage-kicker{color:var(--accent2);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.coverage-head h3{margin:6px 0 0;font-size:1.15rem;font-weight:800;letter-spacing:-0.3px;}
+.coverage-list{display:flex;flex-direction:column;gap:14px;}
+.coverage-row{display:flex;gap:14px;align-items:flex-start;padding-top:14px;border-top:1px solid var(--border-soft);}
+.coverage-row:first-child{padding-top:0;border-top:none;}
+.coverage-tag{
+  flex-shrink:0;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.85rem;background:rgba(59,111,224,0.12);color:var(--accent);border:1px solid rgba(59,111,224,0.3);
+}
+.coverage-tag.v{background:rgba(201,154,76,0.12);color:var(--gold);border-color:rgba(201,154,76,0.3);}
+.coverage-tag.t{background:rgba(44,166,160,0.12);color:var(--accent2);border-color:rgba(44,166,160,0.3);}
+.coverage-tag.y{background:rgba(124,138,176,0.12);color:#94A0BE;border-color:rgba(124,138,176,0.3);}
+.coverage-row h4{margin:0 0 3px;font-size:0.9rem;font-weight:700;}
+.coverage-row p{margin:0;color:var(--text-dimmer);font-size:0.78rem;line-height:1.5;}
+@media (max-width:900px){.coverage-panel{margin-top:8px;}}
 .video-section{padding:8px 0 44px;}
 .video-frame{
   position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;
   background:transparent;border:none;box-shadow:none;
+  margin:0 auto;transition:aspect-ratio .2s ease;
 }
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+@media (max-width:640px){
+  .video-frame{aspect-ratio:9/16;max-width:400px;}
+}
 .video-caption{display:flex;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px;}
 .video-caption h3{margin:0;font-size:1.05rem;font-weight:700;}
 .video-caption p{margin:2px 0 0;color:var(--text-dim);font-size:0.85rem;}
@@ -301,22 +326,47 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
     radial-gradient(circle at 88% 8%, rgba(59,111,224,0.16), transparent 45%),
     #000000;
   z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;}
-.gate-box{background:linear-gradient(165deg, #0d0e12, #070709);border:1px solid var(--border-soft);
-  border-radius:22px;max-width:420px;width:100%;padding:36px 32px;text-align:center;
-  box-shadow:0 50px 120px rgba(0,0,0,0.75);}
-.gate-box .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);
-  display:inline-block;margin-bottom:16px;}
-.gate-box h2{margin:0 0 8px;font-size:1.35rem;font-weight:800;}
-.gate-box p{color:var(--text-dim);font-size:0.87rem;margin:0 0 22px;}
-.gate-box input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;
-  color:var(--text);padding:13px 16px;font-size:0.95rem;outline:none;text-align:center;letter-spacing:1px;
-  margin-bottom:14px;transition:border-color .15s;}
-.gate-box input:focus{border-color:rgba(59,111,224,0.5);}
-.gate-box button{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent-dim));color:#00160f;
-  border:none;border-radius:12px;padding:13px 16px;font-weight:800;font-size:0.92rem;cursor:pointer;transition:all .15s;}
-.gate-box button:hover{box-shadow:var(--glow-a);transform:translateY(-1px);}
-.gate-box .err{color:var(--danger);font-size:0.8rem;margin-top:10px;min-height:16px;}
-.gate-box .foot-note{color:var(--text-dimmer);font-size:0.72rem;margin-top:18px;}
+.gate-card{
+  display:grid;grid-template-columns:1fr 1fr;max-width:900px;width:100%;
+  background:var(--card);border:1px solid var(--border-soft);border-radius:22px;overflow:hidden;
+  box-shadow:0 50px 120px rgba(0,0,0,0.75);
+}
+@media (max-width:760px){.gate-card{grid-template-columns:1fr;max-width:440px;}}
+
+.gate-brand-panel{
+  background:linear-gradient(160deg,#0d1b3a,#1a2c52 45%,#0a1428);
+  padding:48px 40px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;
+}
+.gate-brand-panel::before{
+  content:'';position:absolute;width:280px;height:280px;border-radius:50%;top:-80px;right:-80px;
+  background:radial-gradient(circle,rgba(59,111,224,0.35),transparent 70%);
+}
+.gate-brand-panel::after{
+  content:'';position:absolute;width:220px;height:220px;border-radius:50%;bottom:-70px;left:-60px;
+  background:radial-gradient(circle,rgba(44,166,160,0.28),transparent 70%);
+}
+.gate-brand-mark{display:flex;align-items:center;gap:9px;position:relative;z-index:1;margin-bottom:34px;}
+.gate-brand-mark .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);}
+.gate-brand-mark span{font-weight:800;font-size:1.05rem;color:#fff;letter-spacing:-0.2px;}
+.gate-brand-panel h2{position:relative;z-index:1;color:#fff;font-size:1.7rem;font-weight:800;line-height:1.25;margin:0 0 14px;letter-spacing:-0.5px;}
+.gate-brand-panel p{position:relative;z-index:1;color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.6;max-width:320px;margin:0 0 30px;}
+.gate-stat-list{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;}
+.gate-stat-list div{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.8);font-size:0.82rem;}
+.gate-stat-list div::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+.gate-form-panel{padding:48px 44px;display:flex;flex-direction:column;justify-content:center;}
+.gate-form-panel h3{margin:0 0 6px;font-size:1.3rem;font-weight:800;}
+.gate-form-panel > p{color:var(--text-dim);font-size:0.85rem;margin:0 0 26px;}
+.gate-field{margin-bottom:16px;text-align:left;}
+.gate-field label{display:block;font-size:0.76rem;font-weight:700;color:var(--text-dim);margin-bottom:6px;letter-spacing:0.2px;}
+.gate-field input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:11px;
+  color:var(--text);padding:12px 14px;font-size:0.9rem;outline:none;letter-spacing:0.3px;transition:border-color .15s;}
+.gate-field input:focus{border-color:var(--accent);}
+.gate-form-panel button{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent-dim));color:#00160f;
+  border:none;border-radius:11px;padding:13px 16px;font-weight:800;font-size:0.92rem;cursor:pointer;transition:all .15s;margin-top:6px;}
+.gate-form-panel button:hover{box-shadow:var(--glow-a);transform:translateY(-1px);}
+.gate-form-panel .err{color:var(--danger);font-size:0.8rem;margin-top:10px;min-height:16px;text-align:left;}
+.gate-form-panel .foot-note{color:var(--text-dimmer);font-size:0.72rem;margin-top:18px;text-align:left;}
 
 @media (max-width:640px){
   .spec-row{flex-direction:column;gap:6px;}
@@ -328,15 +378,32 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
 <body>
 
 <div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <span class="dot"></span>
-    <h2>vivo Training Board</h2>
-    <p>অনুগ্রহ করে আপনার VCD কোড এবং পাসওয়ার্ড লিখুন</p>
-    <input type="text" id="empIdInput" placeholder="আপনার VCD কোড (যেমন: VCD14703)" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('empPassInput').focus();">
-    <input type="password" id="empPassInput" placeholder="আপনার পাসওয়ার্ড" autocomplete="off" onkeydown="if(event.key==='Enter')submitEmpId();">
-    <button onclick="submitEmpId()" id="gateSubmitBtn">Enter Board / বোর্ডে প্রবেশ করুন</button>
-    <div class="err" id="empIdErr"></div>
-    <div class="foot-note">আপনার ID শুধু ব্যবহারের হিসাব রাখার জন্য সংরক্ষণ করা হয়</div>
+  <div class="gate-card">
+    <div class="gate-brand-panel">
+      <div class="gate-brand-mark"><span class="dot"></span><span>vivo Training Board</span></div>
+      <h2>Master Every Model.<br>Pitch With Confidence.</h2>
+      <p>Your internal reference for specs, offers, and customer-ready benefits — always up to date, always in your language.</p>
+      <div class="gate-stat-list">
+        <div>30+ models across 4 series</div>
+        <div>Bengali benefit pitches built in</div>
+        <div>Live cashback, EMI &amp; V-Shield offers</div>
+      </div>
+    </div>
+    <div class="gate-form-panel">
+      <h3>Sign In</h3>
+      <p>অনুগ্রহ করে আপনার VCD কোড এবং পাসওয়ার্ড লিখুন</p>
+      <div class="gate-field">
+        <label for="empIdInput">VCD Code</label>
+        <input type="text" id="empIdInput" placeholder="e.g. VCD14703" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('empPassInput').focus();">
+      </div>
+      <div class="gate-field">
+        <label for="empPassInput">Password</label>
+        <input type="password" id="empPassInput" placeholder="Enter your password" autocomplete="off" onkeydown="if(event.key==='Enter')submitEmpId();">
+      </div>
+      <button onclick="submitEmpId()" id="gateSubmitBtn">Enter Board</button>
+      <div class="err" id="empIdErr"></div>
+      <div class="foot-note">আপনার ID শুধু ব্যবহারের হিসাব রাখার জন্য সংরক্ষণ করা হয়</div>
+    </div>
   </div>
 </div>
 
@@ -358,11 +425,35 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
 
 <header class="hero2">
   <div class="wrap">
-    <div class="hero2-grid hero2-grid--single">
+    <div class="hero2-grid">
       <div>
         <span class="tag">Internal Training Reference · July'26</span>
         <h1>Master Every vivo Model.<br><span class="grad">Pitch with Confidence.</span></h1>
         <p class="lede">Specs, cashback/EMI offers, V-Shield &amp; exchange schemes for all 30 current models — plus a dedicated <b style="color:var(--gold)">Benefits (বাংলা)</b> tab so every sales conversation lands in the customer's own language.</p>
+      </div>
+      <div class="coverage-panel">
+        <div class="coverage-head">
+          <span class="coverage-kicker">Coverage Snapshot</span>
+          <h3>All 30 Models, 4 Series</h3>
+        </div>
+        <div class="coverage-list">
+          <div class="coverage-row">
+            <span class="coverage-tag x">X</span>
+            <div><h4>X Series</h4><p>Flagship performance, ZEISS optics, top-tier zoom</p></div>
+          </div>
+          <div class="coverage-row">
+            <span class="coverage-tag v">V</span>
+            <div><h4>V Series</h4><p>Stylish mid-flagship with ZEISS portrait cameras</p></div>
+          </div>
+          <div class="coverage-row">
+            <span class="coverage-tag t">T</span>
+            <div><h4>T Series</h4><p>Reliable performance for everyday value shoppers</p></div>
+          </div>
+          <div class="coverage-row">
+            <span class="coverage-tag y">Y</span>
+            <div><h4>Y Series</h4><p>Affordable 5G entry-level with long battery life</p></div>
+          </div>
+        </div>
       </div>
     </div>
 

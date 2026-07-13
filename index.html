@@ -1150,11 +1150,10 @@ async function submitQuiz(){
   // de-dupe wrong models, preserving first-seen order
   const uniqueWrongModels = wrongModels.filter((m, i) => wrongModels.indexOf(m) === i);
   const focusHtml = buildFocusHtml(uniqueWrongModels);
-
   const box = document.getElementById('quizResultBox');
-  box.style.display = 'block';
 
   if(IS_QUIZ_ONLY){
+    box.style.display = 'block';
     setTimeout(() => {
       document.getElementById('quizList').style.display = 'none';
       btn.style.display = 'none';
@@ -1173,7 +1172,17 @@ async function submitQuiz(){
       }, 2200);
     }, 1400);
   } else {
-    box.innerHTML = `${focusHtml}<div class="quiz-score-line">আপনার স্কোর: ${score} / ${QUIZ_DATA.length}</div>`;
+    // Briefly let the person see which options were right/wrong (green/red),
+    // then — within about a second, no refresh or re-login needed — the
+    // question list disappears and only the score plus each wrongly
+    // answered model's USP/benefits stay on screen.
+    setTimeout(() => {
+      document.getElementById('quizList').style.display = 'none';
+      btn.style.display = 'none';
+      box.style.display = 'block';
+      box.innerHTML = `${focusHtml}<div class="quiz-score-line">আপনার স্কোর: ${score} / ${QUIZ_DATA.length}</div>`;
+      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 900);
   }
 }
 

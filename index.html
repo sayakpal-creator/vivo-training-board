@@ -1054,7 +1054,14 @@ async function loadCardsFromSheet(){
   if(!GAS_URL || GAS_URL.indexOf('PASTE_YOUR') === 0) return; // not configured yet
   try{
     const resp = await fetch(GAS_URL + '?action=cards');
-    const data = await resp.json();
+    const raw = await resp.text();
+    let data;
+    try{
+      data = JSON.parse(raw);
+    }catch(parseErr){
+      console.error('Cards response was not valid JSON (check Apps Script deployment access):', raw.slice(0, 300));
+      return; // keep existing static content
+    }
     if(data){
       renderModelHighlights(data.modelHighlights);
       renderFeatureCards(data.featureCards);
@@ -1107,7 +1114,24 @@ async function submitEmpId(){
       headers: {'Content-Type': 'text/plain;charset=utf-8'},
       body: JSON.stringify({ action: 'auth', employeeId: idVal, password: passVal })
     });
-    const data = await resp.json();
+
+    const raw = await resp.text();
+    let data;
+    try{
+      data = JSON.parse(raw);
+    }catch(parseErr){
+      btn.disabled = false;
+      // Apps Script returned something that isn't JSON — almost always means
+      // the deployment isn't public (it served a Google sign-in / permission page instead).
+      if(raw.indexOf('accounts.google.com') !== -1 || raw.indexOf('ServiceLogin') !== -1 || raw.toLowerCase().indexOf('<!doctype html') !== -1){
+        err.textContent = 'সার্ভার সেটিংস ঠিক নেই — Apps Script deployment-এ "Who has access: Anyone" সেট করে আবার Deploy করুন।';
+      } else {
+        err.textContent = 'সার্ভার থেকে অপ্রত্যাশিত রেসপন্স এসেছে — Admin-কে জানান।';
+      }
+      console.error('Auth response was not valid JSON:', raw.slice(0, 300));
+      return;
+    }
+
     btn.disabled = false;
     if(data && data.valid){
       EMP_ID = idVal;
@@ -1123,7 +1147,9 @@ async function submitEmpId(){
     }
   } catch(e){
     btn.disabled = false;
-    err.textContent = 'সংযোগ সমস্যা — আবার চেষ্টা করুন (ইন্টারনেট চেক করুন)';
+    // Network-level failure (DNS, offline, CORS block, blocked domain, etc.)
+    err.textContent = 'সংযোগ সমস্যা — ইন্টারনেট চেক করুন (Console-এ বিস্তারিত দেখুন)';
+    console.error('Login fetch failed:', e);
   }
 }
 /* Session persists via sessionStorage across reload/back-forward within the same tab,

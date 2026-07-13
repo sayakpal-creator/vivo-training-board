@@ -539,6 +539,18 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   .spec-value{text-align:left;}
   .modal-body{max-height:66vh;}
 }
+
+/* ---------- LOGOUT FAB ---------- */
+.logout-fab{
+  position:fixed;bottom:20px;right:20px;z-index:2000;
+  display:none;align-items:center;gap:8px;
+  background:var(--card);border:1px solid var(--border);color:var(--text-dim);
+  padding:11px 18px;border-radius:30px;font-size:0.82rem;font-weight:700;cursor:pointer;
+  box-shadow:0 10px 26px rgba(31,58,110,0.16);transition:all .15s ease;
+}
+.logout-fab:hover{border-color:rgba(217,58,63,0.5);color:var(--danger);box-shadow:0 12px 28px rgba(217,58,63,0.2);transform:translateY(-2px);}
+.logout-fab.show{display:flex;}
+@media (max-width:640px){.logout-fab{bottom:14px;right:14px;padding:9px 14px;font-size:0.78rem;}}
 </style>
 </head>
 <body>
@@ -572,6 +584,8 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
     </div>
   </div>
 </div>
+
+<button class="logout-fab" id="logoutFab" onclick="manualLogout()">⎋ Log Out</button>
 
 <nav>
   <div class="navbar">
@@ -653,25 +667,6 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
     </div>
     <div class="filter-hint" id="filterHint">Showing: <b id="filterLabel"></b> <button onclick="clearSeriesFilter()">Show All ✕</button></div>
     <div class="chipgrid" id="chipGrid"></div>
-  </div>
-</section>
-
-<section class="video-section">
-  <div class="wrap">
-    <div class="video-frame">
-      <iframe
-        src="https://drive.google.com/file/d/1K090kTPLD6aySaQlzDd1an7dGR1wAJYY/preview"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    </div>
-    <div class="video-caption">
-      <div>
-        <h3>▶ Watch: Product Walkthrough</h3>
-        <p>Quick training video covering key models and talking points.</p>
-      </div>
-      <span class="video-tag">Training Video</span>
-    </div>
   </div>
 </section>
 
@@ -767,6 +762,25 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   </div>
 </section>
 
+<section class="video-section">
+  <div class="wrap">
+    <div class="video-frame">
+      <iframe
+        src="https://drive.google.com/file/d/1K090kTPLD6aySaQlzDd1an7dGR1wAJYY/preview"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="video-caption">
+      <div>
+        <h3>▶ Watch: Product Walkthrough</h3>
+        <p>Quick training video covering key models and talking points.</p>
+      </div>
+      <span class="video-tag">Training Video</span>
+    </div>
+  </div>
+</section>
+
 <footer>vivo Affordability &amp; Product Board — internal training reference · Offer period 01–31 Jul'26 · Not for external distribution</footer>
 
 <!-- ================= MODAL ================= -->
@@ -795,9 +809,16 @@ function touchActivity(){
 
 function showGate(){
   document.getElementById('gateOverlay').style.display = 'flex';
+  document.getElementById('logoutFab').classList.remove('show');
 }
 function hideGate(){
   document.getElementById('gateOverlay').style.display = 'none';
+  document.getElementById('logoutFab').classList.add('show');
+}
+
+function manualLogout(){
+  logEvent('logout');
+  forceLogout(false);
 }
 
 function forceLogout(reason){
@@ -1279,6 +1300,26 @@ async function submitQuiz(){
       box.style.display = 'block';
       box.innerHTML = `${focusHtml}<div class="quiz-score-line">আপনার স্কোর: ${score} / ${QUIZ_DATA.length}</div>`;
       box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Perfect score — nothing left to review, so the whole quiz section
+      // quietly fades away on its own a few seconds later.
+      if(score === QUIZ_DATA.length && QUIZ_DATA.length > 0){
+        setTimeout(() => {
+          const section = document.getElementById('quizSection');
+          if(section){
+            section.style.transition = 'opacity .6s ease, max-height .6s ease, margin .6s ease, padding .6s ease';
+            section.style.opacity = '0';
+            section.style.maxHeight = section.scrollHeight + 'px';
+            requestAnimationFrame(() => {
+              section.style.maxHeight = '0px';
+              section.style.margin = '0';
+              section.style.padding = '0';
+              section.style.overflow = 'hidden';
+            });
+            setTimeout(() => { section.style.display = 'none'; }, 650);
+          }
+        }, 3000);
+      }
     }, 900);
   }
 }

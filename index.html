@@ -560,11 +560,11 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
       <p>অনুগ্রহ করে আপনার VCD কোড এবং পাসওয়ার্ড লিখুন</p>
       <div class="gate-field">
         <label for="empIdInput">VCD Code</label>
-        <input type="text" id="empIdInput" placeholder="e.g. VCD14703" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('empPassInput').focus();">
+        <input type="text" id="empIdInput" placeholder="e.g. VCD14703" autocomplete="off" oninput="scheduleAutoLogin();" onkeydown="if(event.key==='Enter')document.getElementById('empPassInput').focus();">
       </div>
       <div class="gate-field">
         <label for="empPassInput">Password</label>
-        <input type="password" id="empPassInput" placeholder="Enter your password" autocomplete="off" onkeydown="if(event.key==='Enter')submitEmpId();">
+        <input type="password" id="empPassInput" placeholder="Enter your password" autocomplete="off" oninput="scheduleAutoLogin();" onkeydown="if(event.key==='Enter')submitEmpId();">
       </div>
       <button onclick="submitEmpId()" id="gateSubmitBtn">Enter Board</button>
       <div class="err" id="empIdErr"></div>
@@ -644,6 +644,37 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   </div>
 </header>
 
+<section id="allModelsSection">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">All Models</div>
+      <h2>Tap any model to open its board</h2>
+      <p>Each card opens Specifications, Bengali Customer Benefits, and Offers &amp; Schemes in the same popup window.</p>
+    </div>
+    <div class="filter-hint" id="filterHint">Showing: <b id="filterLabel"></b> <button onclick="clearSeriesFilter()">Show All ✕</button></div>
+    <div class="chipgrid" id="chipGrid"></div>
+  </div>
+</section>
+
+<section class="video-section">
+  <div class="wrap">
+    <div class="video-frame">
+      <iframe
+        src="https://drive.google.com/file/d/1K090kTPLD6aySaQlzDd1an7dGR1wAJYY/preview"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="video-caption">
+      <div>
+        <h3>▶ Watch: Product Walkthrough</h3>
+        <p>Quick training video covering key models and talking points.</p>
+      </div>
+      <span class="video-tag">Training Video</span>
+    </div>
+  </div>
+</section>
+
 <section class="win-section">
   <div class="wrap">
     <div class="win-card">
@@ -715,25 +746,6 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   </div>
 </section>
 
-<section class="video-section">
-  <div class="wrap">
-    <div class="video-frame">
-      <iframe
-        src="https://drive.google.com/file/d/1K090kTPLD6aySaQlzDd1an7dGR1wAJYY/preview"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
-    </div>
-    <div class="video-caption">
-      <div>
-        <h3>▶ Watch: Product Walkthrough</h3>
-        <p>Quick training video covering key models and talking points.</p>
-      </div>
-      <span class="video-tag">Training Video</span>
-    </div>
-  </div>
-</section>
-
 <section>
   <div class="wrap two-col">
     <div>
@@ -752,18 +764,6 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
       </div>
       <div class="spot-list" id="spotList"></div>
     </div>
-  </div>
-</section>
-
-<section id="allModelsSection">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="kicker">All Models</div>
-      <h2>Tap any model to open its board</h2>
-      <p>Each card opens Specifications, Bengali Customer Benefits, and Offers &amp; Schemes in the same popup window.</p>
-    </div>
-    <div class="filter-hint" id="filterHint">Showing: <b id="filterLabel"></b> <button onclick="clearSeriesFilter()">Show All ✕</button></div>
-    <div class="chipgrid" id="chipGrid"></div>
   </div>
 </section>
 
@@ -1326,6 +1326,25 @@ async function loadCardsFromSheet(){
 }
 window.addEventListener('DOMContentLoaded', loadCardsFromSheet);
 
+let autoLoginTimer = null;
+let autoLoginAttempted = false; // prevents re-firing on the same exact value after a failed try
+function scheduleAutoLogin(){
+  clearTimeout(autoLoginTimer);
+  const idVal = document.getElementById('empIdInput').value.trim();
+  const passVal = document.getElementById('empPassInput').value;
+  // Only consider auto-submitting once we have something that looks like a real
+  // VCD code and a password of reasonable length — avoids firing on every keystroke.
+  if(!/^vcd/i.test(idVal) || passVal.length < 4) return;
+  const attemptKey = idVal.toUpperCase() + '|' + passVal;
+  if(autoLoginAttempted === attemptKey) return; // already tried this exact combo, wait for further edits
+  autoLoginTimer = setTimeout(() => {
+    const btn = document.getElementById('gateSubmitBtn');
+    if(btn && btn.disabled) return; // a request is already in flight
+    autoLoginAttempted = attemptKey;
+    submitEmpId();
+  }, 550);
+}
+
 async function submitEmpId(){
   const idVal = document.getElementById('empIdInput').value.trim().toUpperCase();
   const passVal = document.getElementById('empPassInput').value;
@@ -1374,6 +1393,7 @@ async function submitEmpId(){
       sessionStorage.setItem('vivo_emp_id', EMP_ID);
       sessionStorage.setItem('vivo_last_active', Date.now().toString());
       err.textContent = '';
+      clearTimeout(autoLoginTimer);
       hideGate();
       logEvent('session_start');
       showWelcomeToast(data.name);

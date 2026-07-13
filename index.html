@@ -560,6 +560,21 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   </div>
 </nav>
 
+<section id="quizSection">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Quick Quiz · বাংলা</div>
+      <h2>নিজেকে যাচাই করুন</h2>
+      <p>প্রতিটি প্রশ্নের উত্তর বেছে নিয়ে জমা দিন — ফলাফল সাথে সাথে দেখতে পাবেন, এবং এটি আপনার ট্রেনিং রেকর্ডে যোগ হবে।</p>
+    </div>
+    <div id="quizList">
+      <div class="quiz-empty" id="quizEmptyState">আজকের কুইজ এখনো যোগ করা হয়নি — কিছুক্ষণ পর আবার দেখুন।</div>
+    </div>
+    <button class="btn-primary" id="quizSubmitBtn" onclick="submitQuiz()" style="margin-top:18px;display:none;">জমা দিন / Submit</button>
+    <div id="quizResultBox" style="display:none;margin-top:18px;"></div>
+  </div>
+</section>
+
 <header class="hero2">
   <div class="wrap">
     <div class="hero2-grid">
@@ -719,21 +734,6 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
     </div>
     <div class="filter-hint" id="filterHint">Showing: <b id="filterLabel"></b> <button onclick="clearSeriesFilter()">Show All ✕</button></div>
     <div class="chipgrid" id="chipGrid"></div>
-  </div>
-</section>
-
-<section id="quizSection">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="kicker">Quick Quiz · বাংলা</div>
-      <h2>নিজেকে যাচাই করুন</h2>
-      <p>প্রতিটি প্রশ্নের উত্তর বেছে নিয়ে জমা দিন — ফলাফল সাথে সাথে দেখতে পাবেন, এবং এটি আপনার ট্রেনিং রেকর্ডে যোগ হবে।</p>
-    </div>
-    <div id="quizList">
-      <div class="quiz-empty" id="quizEmptyState">আজকের কুইজ এখনো যোগ করা হয়নি — কিছুক্ষণ পর আবার দেখুন।</div>
-    </div>
-    <button class="btn-primary" id="quizSubmitBtn" onclick="submitQuiz()" style="margin-top:18px;display:none;">জমা দিন / Submit</button>
-    <div id="quizResultBox" style="display:none;margin-top:18px;"></div>
   </div>
 </section>
 

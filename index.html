@@ -163,6 +163,46 @@ nav{position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.72);backdrop-filte
 .nudge-toast.show{bottom:20px;}
 .nudge-toast .nt-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);flex-shrink:0;}
 
+.welcome-toast{
+  position:fixed;top:20px;right:20px;transform:translateY(-120%);
+  background:var(--card);border:1px solid var(--border-soft);border-radius:14px;
+  padding:14px 18px;display:flex;align-items:center;gap:11px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5), var(--glow-a);
+  color:var(--text);font-size:0.86rem;font-weight:600;
+  z-index:6500;max-width:320px;transition:transform .35s ease;
+}
+.welcome-toast.show{transform:translateY(0);}
+.welcome-toast .wt-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:var(--glow-a);flex-shrink:0;}
+.welcome-toast .wt-name{color:var(--gold);font-weight:800;}
+@media (max-width:480px){.welcome-toast{left:16px;right:16px;max-width:none;}}
+
+/* ---- quiz ---- */
+.quiz-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:16px;
+}
+.quiz-q{font-size:1rem;font-weight:700;color:var(--text);margin:0 0 16px;}
+.quiz-opts{display:flex;flex-direction:column;gap:10px;}
+.quiz-opt{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:all .15s ease;background:var(--bg2);
+}
+.quiz-opt:hover{border-color:var(--accent);}
+.quiz-opt input{accent-color:var(--accent);width:16px;height:16px;flex-shrink:0;}
+.quiz-opt.correct{border-color:#2ecc71;background:rgba(46,204,113,0.1);}
+.quiz-opt.incorrect{border-color:var(--danger);background:rgba(229,72,77,0.1);}
+.quiz-opt span{font-size:0.9rem;color:var(--text);}
+#quizResultBox{
+  background:linear-gradient(135deg,rgba(59,111,224,0.1),rgba(44,166,160,0.08));border:1px solid var(--border-soft);
+  border-radius:16px;padding:20px 24px;font-size:1rem;font-weight:700;color:var(--text);
+}
+
+/* ---- quiz-only shareable-link mode ---- */
+body.quiz-only nav, body.quiz-only header.hero2, body.quiz-only footer{display:none !important;}
+body.quiz-only section:not(#quizSection){display:none !important;}
+body.quiz-only #quizSection{display:block !important;padding-top:64px;min-height:100vh;}
+.quiz-thankyou{text-align:center;padding:40px 20px;}
+.quiz-thankyou .qty-score{font-size:2rem;font-weight:800;color:var(--gold);margin:14px 0;}
+
 .notify-section{padding:0 0 8px;}
 .notify-card{
   background:linear-gradient(135deg,rgba(59,111,224,0.1),rgba(44,166,160,0.08));border:1px solid rgba(59,111,224,0.28);
@@ -522,7 +562,7 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
           <span class="coverage-kicker">Model Highlights · বাংলা</span>
           <h3>এই মডেলগুলো কেন সেরা</h3>
         </div>
-        <div class="coverage-list">
+        <div class="coverage-list" id="coverageList">
           <div class="coverage-row">
             <span class="coverage-tag x">FE</span>
             <div><h4>vivo X300 FE</h4><p>কমপ্যাক্ট ফ্ল্যাগশিপ — Snapdragon 8 Gen 5 চিপ, ৯০W ফাস্ট চার্জ আর ৫০MP OIS ক্যামেরা, ছোট হাতেও পুরো ফ্ল্যাগশিপ অভিজ্ঞতা।</p></div>
@@ -539,7 +579,7 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
       </div>
     </div>
 
-    <div class="feature-strip feature-strip--3">
+    <div class="feature-strip feature-strip--3" id="featureCardsGrid">
       <div class="feature-item"><div><h4>X300 Pro</h4><p>ফ্ল্যাগশিপ পারফরম্যান্স আর ট্রু অপটিক্যাল জুম — প্রফেশনাল ফটোগ্রাফির জন্য পারফেক্ট চয়েস।</p></div></div>
       <div class="feature-item"><div><h4>X300 FE</h4><p>কমপ্যাক্ট বডিতে ফ্ল্যাগশিপ স্পিড — হালকা, শক্তিশালী, সহজে হাতে ধরার মতো।</p></div></div>
       <div class="feature-item"><div><h4>V70 Elite</h4><p>ZEISS ট্রিপল ক্যামেরা আর ৫০০০ নিটস AMOLED ডিসপ্লে — প্রিমিয়াম ফ্ল্যাগশিপ অভিজ্ঞতা, প্রতিদ্বন্দ্বীদের চেয়ে অনেক এগিয়ে।</p></div></div>
@@ -671,6 +711,19 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
   </div>
 </section>
 
+<section id="quizSection" style="display:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Quick Quiz · বাংলা</div>
+      <h2>নিজেকে যাচাই করুন</h2>
+      <p>প্রতিটি প্রশ্নের উত্তর বেছে নিয়ে জমা দিন — ফলাফল সাথে সাথে দেখতে পাবেন, এবং এটি আপনার ট্রেনিং রেকর্ডে যোগ হবে।</p>
+    </div>
+    <div id="quizList"></div>
+    <button class="btn-primary" id="quizSubmitBtn" onclick="submitQuiz()" style="margin-top:18px;">জমা দিন / Submit</button>
+    <div id="quizResultBox" style="display:none;margin-top:18px;"></div>
+  </div>
+</section>
+
 <footer>vivo Affordability &amp; Product Board — internal training reference · Offer period 01–31 Jul'26 · Not for external distribution</footer>
 
 <!-- ================= MODAL ================= -->
@@ -687,6 +740,8 @@ footer{padding:40px 0;text-align:center;color:var(--text-dimmer);font-size:0.8re
    Paste your deployed Google Apps Script Web App URL below between the quotes.
    Until you do, tracking calls are skipped silently (site works fine either way). */
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw_XR59VpRbeLcQsTjmzcKdzET7UXgj-x0IRSVWVqavWnmTyUZ7qooOja06PHIyJhXFdg/exec";
+const IS_QUIZ_ONLY = new URLSearchParams(window.location.search).get('quiz') === '1';
+if(IS_QUIZ_ONLY){ document.body.classList.add('quiz-only'); }
 
 let EMP_ID = null;
 const IDLE_LIMIT_MS = 5 * 60 * 1000; // 5 minutes of inactivity forces re-login
@@ -859,6 +914,160 @@ function showEngagementNudge(){
   }
 }
 
+function showWelcomeToast(name){
+  const display = name && name.trim() ? name.trim() : 'Employee';
+  const toast = document.createElement('div');
+  toast.className = 'welcome-toast';
+  toast.innerHTML = `<span class="wt-dot"></span><span>স্বাগতম, <span class="wt-name">${display}</span> 👋</span>`;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}
+
+/* ============ Live-editable cards (from Google Sheets) ============ */
+const COVERAGE_TAG_CLASSES = ['x','v','t'];
+
+function renderModelHighlights(list){
+  if(!list || !list.length) return;
+  const el = document.getElementById('coverageList');
+  if(!el) return;
+  el.innerHTML = list.map((row, i) => `
+    <div class="coverage-row">
+      <span class="coverage-tag ${COVERAGE_TAG_CLASSES[i % COVERAGE_TAG_CLASSES.length]}">${row.tag || ''}</span>
+      <div><h4>${row.title || ''}</h4><p>${row.desc || ''}</p></div>
+    </div>`).join('');
+}
+
+function renderFeatureCards(list){
+  if(!list || !list.length) return;
+  const el = document.getElementById('featureCardsGrid');
+  if(!el) return;
+  el.innerHTML = list.map(row => `
+    <div class="feature-item"><div><h4>${row.title || ''}</h4><p>${row.desc || ''}</p></div></div>`).join('');
+}
+
+let QUIZ_DATA = [];
+let SHEET_OFFERS = {};
+let SHEET_BENEFITS = {};
+function normModel(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' '); }
+
+function renderQuiz(list){
+  if(!list || !list.length) return;
+  QUIZ_DATA = list;
+  const section = document.getElementById('quizSection');
+  const container = document.getElementById('quizList');
+  section.style.display = 'block';
+  container.innerHTML = list.map((q, qi) => `
+    <div class="quiz-card" data-qi="${qi}">
+      <p class="quiz-q">${qi+1}. ${q.question || ''}</p>
+      <div class="quiz-opts">
+        ${['optA','optB','optC','optD'].map((key, oi) => q[key] ? `
+          <label class="quiz-opt" data-oi="${oi}">
+            <input type="radio" name="quiz_q${qi}" value="${['A','B','C','D'][oi]}">
+            <span>${q[key]}</span>
+          </label>` : '').join('')}
+      </div>
+    </div>`).join('');
+}
+
+async function submitQuiz(){
+  if(!QUIZ_DATA.length) return;
+  const btn = document.getElementById('quizSubmitBtn');
+  let score = 0;
+  const cards = document.querySelectorAll('.quiz-card');
+  let allAnswered = true;
+
+  cards.forEach(card => {
+    const qi = parseInt(card.getAttribute('data-qi'), 10);
+    const q = QUIZ_DATA[qi];
+    const selected = card.querySelector('input[type="radio"]:checked');
+    const opts = card.querySelectorAll('.quiz-opt');
+    if(!selected){ allAnswered = false; return; }
+    const selectedLetter = selected.value;
+    const correctLetter = (q.correct || '').toString().trim().toUpperCase();
+    const isCorrect = selectedLetter === correctLetter;
+    if(isCorrect) score++;
+
+    opts.forEach(opt => {
+      const oi = parseInt(opt.getAttribute('data-oi'), 10);
+      const letter = ['A','B','C','D'][oi];
+      if(letter === correctLetter) opt.classList.add('correct');
+      else if(letter === selectedLetter && !isCorrect) opt.classList.add('incorrect');
+    });
+
+    logEvent('quiz_answer', `Q${qi+1}: ${q.question || ''}`.slice(0,120), selectedLetter, isCorrect ? 1 : 0);
+  });
+
+  if(!allAnswered){
+    alert('অনুগ্রহ করে প্রতিটি প্রশ্নের উত্তর দিন।');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'জমা হয়েছে ✓';
+  logEvent('quiz_score', `${score}/${QUIZ_DATA.length}`, '', score);
+
+  const box = document.getElementById('quizResultBox');
+  box.style.display = 'block';
+
+  if(IS_QUIZ_ONLY){
+    setTimeout(() => {
+      document.getElementById('quizList').style.display = 'none';
+      btn.style.display = 'none';
+      box.innerHTML = `
+        <div class="quiz-thankyou">
+          <div style="font-size:2.2rem;">✅</div>
+          <h2 style="margin:12px 0 4px;">ধন্যবাদ! আপনার উত্তর জমা হয়েছে।</h2>
+          <div class="qty-score">স্কোর: ${score} / ${QUIZ_DATA.length}</div>
+          <p style="color:var(--text-dim);">পুরো পেজ কয়েক সেকেন্ডে খুলে যাচ্ছে...</p>
+        </div>`;
+      setTimeout(() => {
+        document.body.classList.remove('quiz-only');
+        window.history.replaceState({}, '', window.location.pathname);
+        window.scrollTo({top:0, behavior:'smooth'});
+      }, 2200);
+    }, 1400);
+  } else {
+    box.textContent = `আপনার স্কোর: ${score} / ${QUIZ_DATA.length}`;
+  }
+}
+
+async function loadCardsFromSheet(){
+  if(!GAS_URL || GAS_URL.indexOf('PASTE_YOUR') === 0) return; // not configured yet
+  try{
+    const resp = await fetch(GAS_URL + '?action=cards');
+    const data = await resp.json();
+    if(data){
+      renderModelHighlights(data.modelHighlights);
+      renderFeatureCards(data.featureCards);
+      renderQuiz(data.quiz);
+
+      if(data.modelOffers){
+        data.modelOffers.forEach(r => {
+          if(r.model && r.offerText && r.offerText.toString().trim()){
+            SHEET_OFFERS[normModel(r.model)] = r.offerText;
+          }
+        });
+      }
+      if(data.modelBenefits){
+        data.modelBenefits.forEach(r => {
+          if(r.model){
+            const arr = [r.b1,r.b2,r.b3,r.b4,r.b5].filter(x => x && x.toString().trim());
+            if(arr.length) SHEET_BENEFITS[normModel(r.model)] = arr;
+          }
+        });
+      }
+      if(document.getElementById('overlay').classList.contains('active') && currentModel){
+        renderProductModal();
+      }
+    }
+  }catch(e){ /* keep existing static content on any failure */ }
+}
+window.addEventListener('DOMContentLoaded', loadCardsFromSheet);
+
 async function submitEmpId(){
   const idVal = document.getElementById('empIdInput').value.trim().toUpperCase();
   const passVal = document.getElementById('empPassInput').value;
@@ -892,6 +1101,7 @@ async function submitEmpId(){
       err.textContent = '';
       hideGate();
       logEvent('session_start');
+      showWelcomeToast(data.name);
       setTimeout(showEngagementNudge, 1200);
     } else {
       err.textContent = 'ভুল VCD কোড অথবা পাসওয়ার্ড — আবার চেষ্টা করুন';
@@ -1015,17 +1225,22 @@ function renderProductModal(){
   }
 
   let benefitsHtml = '';
-  if(card.benefits_bn && card.benefits_bn.length){
+  const benefitsOverride = SHEET_BENEFITS[normModel(currentModel)];
+  const benefitsList = (benefitsOverride && benefitsOverride.length) ? benefitsOverride : card.benefits_bn;
+  if(benefitsList && benefitsList.length){
     benefitsHtml = `
       <div class="bn-panel-title"><span class="badge">Customer Pitch · বাংলা</span></div>
-      ${card.benefits_bn.map((b,i)=>`<div class="benefit-card"><span class="num">${i+1}</span><div>${b}</div></div>`).join('')}
+      ${benefitsList.map((b,i)=>`<div class="benefit-card"><span class="num">${i+1}</span><div>${b}</div></div>`).join('')}
     `;
   } else {
     benefitsHtml = `<div class="no-benefit">এই মডেলের জন্য এখনো নির্দিষ্ট বেনিফিট পিচ যোগ করা হয়নি।</div>`;
   }
 
   let offersHtml = '';
-  if(card.offers && card.offers.length){
+  const offerOverride = SHEET_OFFERS[normModel(currentModel)];
+  if(offerOverride && offerOverride.toString().trim()){
+    offersHtml = `<div class="bn-block">${offerOverride.toString().replace(/\n/g,'<br>')}</div>`;
+  } else if(card.offers && card.offers.length){
     offersHtml = card.offers.map(row => `
       <div class="spec-row">
         <div class="spec-label">${row.label}${row.gkey ? ` <span class="info-icon" onclick="openGlossaryFromModal('${row.gkey}')" title="বাংলায় জানুন">i</span>` : ''}</div>
